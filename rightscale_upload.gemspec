@@ -18,7 +18,10 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "berkshelf"
+  # Restrict berkshelf to 2.0.x since the Berkshelf API changes in v3.x
+  # breaks rightscale_upload. We should port rightscale_upload to
+  # use v3.x berkshelf.
+  spec.add_dependency "berkshelf", "~> 2.0.16"
   spec.add_dependency "buff-config"
   spec.add_dependency "chef", ">= 0.10.10"
   spec.add_dependency "fog"
