@@ -22,6 +22,12 @@ module RightScaleUpload
       desc: "Path to a Berksfile to operate off of.",
       aliases: '-b',
       banner: 'PATH'
+    method_option :environment,
+      type: :string,
+      default: 'dev',
+      desc: 'The environment where the cookbook collection will be used. Example: dev, stage, prod.',
+      aliases: '-e',
+      banner: 'ENVIRONMENT'
     method_option :force,
       type: :boolean,
       default: false,
@@ -33,7 +39,7 @@ module RightScaleUpload
 
       config = Config.from_file(File.expand_path("~/.rightscale_upload.json"))
       metadata = Ridley::Chef::Cookbook::Metadata.from_file('metadata.rb')
-      upload_path = "#{metadata.name}/#{metadata.version}.tar.gz"
+      upload_path = "#{metadata.name}/#{options[:environment]}/#{metadata.version}.tar.gz"
       storage = Fog::Storage.new(config.fog)
       container = storage.directories.get(config.container)
 
